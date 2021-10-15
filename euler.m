@@ -40,9 +40,10 @@ optimal = vpaintegral(second_opt_int,0,2.41201)
 % Functional gradient descent method
 function [eq,value] = grad(integrand,sub,e)
     syms x y(x) p(x) first(p,y) second_int(x) corrector(x)
-    % The corrector is a function that is zero valued at the initial
-    % conditions and positive valued in between (trig functions bad for
-    % some reason)
+    % The corrector is a function that is zero valued at the initial/boundary conditions 
+    % and positive valued in between. It must also converge to zero faster than the E-L equation 
+    % diverges at the initial/boundary conditions (if it diverges at all). This is why the corrector 
+    % function has power 3 instead of power 2 in the brachistochrone case.
     corrector = -(x-1)*x^2;
     first = simplify(y - e*corrector*(diff(integrand,y) - diff(diff(integrand,p),x)));
     second = subs(first,p,diff(y,x));
